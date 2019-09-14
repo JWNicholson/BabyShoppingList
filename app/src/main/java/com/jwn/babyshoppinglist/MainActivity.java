@@ -1,6 +1,7 @@
 package com.jwn.babyshoppinglist;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.jwn.babyshoppinglist.data.DatabaseHandler;
+import com.jwn.babyshoppinglist.model.Item;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
@@ -21,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText itemQuantity;
     private EditText itemColor;
     private EditText itemSize;
+    private DatabaseHandler databaseHandler;
 
 
     @Override
@@ -29,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        databaseHandler = new DatabaseHandler(this);
+
+        //check if item was saved
+        List<Item> items = databaseHandler.getAllItems();
+        for(Item item : items){
+            Log.d("Main", "onCreate: " + item.getDateItemAdded());
+        }
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +56,27 @@ public class MainActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
             }
         });
+    }//end onCreate
+
+    private void saveItem(View view) {
+        //TODO save each item to db
+        Item item = new Item();
+
+        String newItem = babyItem.getText().toString().trim();
+        String newColor = itemColor.getText().toString().trim();
+        int quantity = Integer.parseInt(itemQuantity.getText().toString().trim());
+        int size = Integer.parseInt(itemSize.getText().toString().trim());
+
+        item.setItemName(newItem);
+        item.setItemColor(newColor);
+        item.setItemQuantity(quantity);
+        item.setItemSize(size);
+
+        databaseHandler.addItem(item);
+
+        Snackbar.make(view, "Item Saved", Snackbar.LENGTH_SHORT).show();
+
+        //TODO move to next screen (details screen)
     }
 
     private void createPopupDialog() {
@@ -52,6 +88,23 @@ public class MainActivity extends AppCompatActivity {
         itemQuantity = view.findViewById(R.id.itemQuantity);
         itemColor = view.findViewById(R.id.itemColor);
         itemSize = view.findViewById(R.id.itemSize);
+
+        saveButton = view.findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(!babyItem.getText().toString().isEmpty()
+                        && !itemColor.getText().toString().isEmpty()
+                        && !itemQuantity.getText().toString().isEmpty()
+                        && !itemSize.getText().toString().isEmpty()){
+                    saveItem(view);
+                }else {
+                    Snackbar.make(view,"Empty Fields Not Allowed!",Snackbar.LENGTH_SHORT).show();
+                }
+                ;
+            }//end  public void onClick(View view)
+        });
 
         builder.setView(view);
         dialog = builder.create();//this is what actually shows the dialog to the user

@@ -30,8 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/title"
                 android:ems="10"
-                android:hint="@string/hint_item"
-                android:inputType="textPersonName" />
+                android:hint="@string/hint_item" />
 
             <EditText
                 android:id="@+id/itemQuantity"
@@ -48,8 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/itemQuantity"
                 android:ems="10"
-                android:hint="@string/hint_color"
-                android:inputType="textPersonName" />
+                android:hint="@string/hint_color" />
 
             <EditText
                 android:id="@+id/itemSize"
@@ -59,7 +57,7 @@
                 android:ems="10"
                 android:hint="@string/hint_size"
                 android:inputType="number"
-                android:textColor="@android:color/primary_text_dark_nodisable" />
+                android:textColor="@android:color/black" />
 
             <Button
                 android:id="@+id/saveButton"
