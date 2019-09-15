@@ -1,6 +1,8 @@
 package com.jwn.babyshoppinglist;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,7 +78,16 @@ public class MainActivity extends AppCompatActivity {
 
         Snackbar.make(view, "Item Saved", Snackbar.LENGTH_SHORT).show();
 
-        //TODO move to next screen (details screen)
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //code to be run
+                dialog.dismiss();
+                //TODO move to next screen (details screen)
+                startActivity(new Intent(MainActivity.this, ListActivity.class));
+            }
+        }, 1200);
     }
 
     private void createPopupDialog() {
