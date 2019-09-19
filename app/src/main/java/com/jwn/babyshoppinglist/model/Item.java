@@ -80,4 +80,7 @@ public class Item {
     public void setDateItemAdded(String dateItemAdded) {
         this.dateItemAdded = dateItemAdded;
     }
+
+    public void getItemName(String toString) {
+    }
 }

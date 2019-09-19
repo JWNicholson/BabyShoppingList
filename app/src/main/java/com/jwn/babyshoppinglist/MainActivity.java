@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         databaseHandler = new DatabaseHandler(this);
 
+        byPassActivity();
+
+
         //check if item was saved
         List<Item> items = databaseHandler.getAllItems();
         for(Item item : items){
@@ -59,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }//end onCreate
+
+    private void byPassActivity() {
+        if(databaseHandler.getItemsCount() > 0) {
+            startActivity(new Intent(MainActivity.this, ListActivity.class));
+            finish();
+        }
+    }
 
     private void saveItem(View view) {
         //TODO save each item to db
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     Snackbar.make(view,"Empty Fields Not Allowed!",Snackbar.LENGTH_SHORT).show();
                 }
-                ;
+
             }//end  public void onClick(View view)
         });
 
